@@ -94,3 +94,68 @@
 
     - Modify Navbars in app.blade.php and home.blade.php
     
+
+
+
+2. Milestone 2
+   ## Create in folder `page`
+   
+   ```
+   - Home.vue
+   - About.vue
+   - Products.vue
+   - Product.vue 
+   ```
+
+   ## Install Vue Router 3
+    `npm install vue-router@3`
+   Modify `front.js`
+   import Vue Router and pages 
+   create e new instance of `VueRouter` with routes for
+   ```
+   Home 
+   About
+   Contacts
+   Products
+   Product
+   ```
+   Pass this instance to Vue
+
+
+   Modify `App.vue`
+   Delete Main and insert
+   `<router-view></router-view>` this is a VueRouter component that will render the route
+
+   Modify `Header.vue`
+   replace tags a with `router-link` component
+  
+  ```JS
+    menuItems: [
+                {
+                    label: 'Home',
+                    routeName: 'home'
+                },
+                {
+                    label: 'Products',
+                    routeName: 'products'
+                },
+                {
+                    label: 'Chi Siamo',
+                    routeName: 'about'
+                },
+                {
+                    label: 'Contatti',
+                    routeName: 'contacts'
+                }
+            ]
+    ```
+
+    Modify `Main` add 
+    `props:['cards']`
+    We'll pass props from different pages
+    Our buttons emit an event to parent component
+    `$emit('changePage', vs);`
+    in parent add event to instance of main
+    ` <Main @changePage="changePage($event)"></Main>`
+
+    Add in Products

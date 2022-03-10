@@ -1,5 +1,22 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@section('script')
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
+
     <script src="{{ asset('js/front.js') }}" defer></script>
-@endsection
+</head>
+
+<body>
+    {{-- eliminiamo i link login e register dalla home --}}
+    <div id="app">
+    </div>
+</body>
+
+</html>
