@@ -1,6 +1,6 @@
-# Api
+# Laravel Api
 
-1. Install Laravel  
+## Install Laravel  
   - Remove fzaninotto/faker and install Fakerphp
     `composer require fakerphp/faker`
     ` composer remove fzaninotto/faker`
@@ -97,8 +97,8 @@
 
 
 
-2. Milestone 2
-   ## Create in folder `page`
+## Milestone 2
+   Create in folder `page`
    
    ```
    - Home.vue
@@ -107,7 +107,7 @@
    - Product.vue 
    ```
 
-   ## Install Vue Router 3
+   Install Vue Router 3
     `npm install vue-router@3`
    Modify `front.js`
    import Vue Router and pages 
@@ -119,12 +119,14 @@
    Products
    Product
    ```
+
    Pass this instance to Vue
 
 
    Modify `App.vue`
    Delete Main and insert
-   `<router-view></router-view>` this is a VueRouter component that will render the route
+   `<router-view></router-view>` 
+   this is a VueRouter component that will render the route.
 
    Modify `Header.vue`
    replace tags a with `router-link` component
@@ -148,14 +150,126 @@
                     routeName: 'contacts'
                 }
             ]
+  ```
+
+  Modify `Main` add 
+  `props:['cards']`
+
+  We'll pass props from different pages
+  Our buttons emit an event to parent component
+ 
+  `$emit('changePage', vs);`
+  
+  in parent add event to instance of main
+  ```HTML
+  <Main @changePage="changePage($event)"></Main>
+  ```
+
+
+## Milestone 3 - Add Middleware Api 
+
+  https://laravel.com/docs/7.x/middleware#introduction
+  ## Create a new Middleware
+
+  `php artisan make:middleware ApiAuth`
+
+  Register this Middleware in `app/Http/Kernel.php`
+  ```PHP
+  'api.auth' => \App\Http\Middleware\ApiAuth::class,
+  ```
+
+  Add Middleware to Api.php
+  ```PHP
+  Route::post('v1/contacts/', 'Api\ContactController@sendMessage')->middleware('api.auth');
+  ```
+
+  Add in `config/app.php`
+ 
+  ```PHP
+    'apiKey' => env('API_KEY', 'jhy65rfghjuio'),
+  ```
+
+  Add in `.env` your token
+  `API_KEY=jhgf678iklp987t`
+
+
+
+  In Middleware `ApiAuth` add in function Handle
+
+  ```PHP
+   if ($request->header("Authorization") != "Bearer " . config('app.apiKey')) {
+                "success" => false,
+                "error" => "Bad Authorization"
+            ]);
+        }
+  return $next($request);
+  ```
+  
+### Upload a file with VueJs 
+    1. Create `Api\ContactController`
+  
+    https://laravel.com/docs/7.x/requests#storing-uploaded-files
+
+    We store a file in folder uploads
+    ```PHP
+      $path = $request->file->store('uploads');
     ```
 
-    Modify `Main` add 
-    `props:['cards']`
-    We'll pass props from different pages
-    Our buttons emit an event to parent component
-    `$emit('changePage', vs);`
-    in parent add event to instance of main
-    ` <Main @changePage="changePage($event)"></Main>`
+    2. Create `pages/Contacts.vue`
+    Add a form with `enctype="multipart/form-data"` and add an input type file
 
-    Add in Products
+    We send the data to our `ContactController` with `Axios`
+
+    ```JS
+     sendForm() {
+        const formData = new FormData();
+        formData.append('file', this.form.file[0]);
+      
+        const headers = { 
+          'Content-Type': 'multipart/form-data', 
+          'Authorization': 'Bearer jhgf678iklp987t' 
+        };
+
+        const url = "http://127.0.0.1:8000/api/v1/contacts/";
+        
+        Axios.post(url, formData, { headers })
+          .then((result) => {
+            console.log(result.data, result.status );  // HTTP status //  // binary representation of the file
+          })
+        .catch(error => console.log(error));
+      }
+    ```
+    
+   https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
+
+## Refactoring
+  Create a Loading Component
+
+  ```JS
+    <template>
+      <div class="d-flex justify-content-center align-items-center">
+        <font-awesome-icon icon="fa-solid fa-spinner" size="2xl"  spin fixed-width/>
+      </div>
+    </template>
+
+    <script>
+    import { library } from '@fortawesome/fontawesome-svg-core'
+
+    /* import specific icons */
+    import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+
+    /* import font awesome icon component */
+    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+    /* add icons to the library */
+    library.add(faSpinner)
+    export default {
+        name: "Loeading",
+        components: {
+          FontAwesomeIcon
+        }, 
+    }
+    </script>
+  ```
+
+  And use it in `Home.vue`, we should view the component while the content is loading.
