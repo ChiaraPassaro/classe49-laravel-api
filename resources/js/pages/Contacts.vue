@@ -58,20 +58,24 @@ import Axios from "axios";
         this.form.file = value;
       },
       sendMessage() {
-        const formData = new FormData();
-        formData.append('file', this.form.file[0]);
-        this.form.file = formData;
-
+          const formData = new FormData();
+          formData.append('file', this.form.file[0]);
+          formData.append('firstname', this.form.firstname);
+          formData.append('lastname', this.form.lastname);
+          formData.append('message', this.form.message);
+      
         const headers = { 
-          'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2), 
+          'Content-Type': 'multipart/form-data', 
           'Authorization': 'Bearer n686yd9qnm9b56h' 
         };
 
-        Axios.post('http://127.0.0.1:8000/api/v1/contacts', formData ,
-          {headers})
-        .then((result) => {
-          console.log(result);
-        }).catch(error => console.log(error));
+        const url = "http://127.0.0.1:8000/api/v1/contacts/";
+        
+        Axios.post(url, formData, { headers })
+          .then((result) => {
+            console.log(result.data, result.status );  // HTTP status //  // binary representation of the file
+          })
+        .catch(error => console.log(error));
       }
     }
   }

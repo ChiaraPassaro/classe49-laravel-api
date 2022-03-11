@@ -241,7 +241,7 @@
       
         const headers = { 
           'Content-Type': 'multipart/form-data', 
-          'Authorization': 'Bearer jhgf678iklp987t' 
+          'Authorization': 'Bearer n686yd9qnm9b56h' 
         };
 
         const url = "http://127.0.0.1:8000/api/v1/contacts/";
