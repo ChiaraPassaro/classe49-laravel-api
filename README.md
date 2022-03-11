@@ -95,7 +95,9 @@
     - Modify Navbars in app.blade.php and home.blade.php
     
 
-
+<br>
+<hr>
+<br>
 
 ## Milestone 2
    Create in folder `page`
@@ -165,6 +167,11 @@
   <Main @changePage="changePage($event)"></Main>
   ```
 
+### Then add some Api routes with random products and filtered products
+
+<br>
+<hr>
+<br>
 
 ## Milestone 3 - Add Middleware Api 
 
@@ -205,7 +212,14 @@
   return $next($request);
   ```
   
+<br>
+<hr>
+<br>
+
 ### Upload a file with VueJs 
+
+    `@change="setFile($event.target.files)`
+    
     1. Create `Api\ContactController`
   
     https://laravel.com/docs/7.x/requests#storing-uploaded-files
@@ -241,6 +255,12 @@
     ```
     
    https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
+
+
+<br>
+<hr>
+<br>
+
 
 ## Refactoring
   Create a Loading Component

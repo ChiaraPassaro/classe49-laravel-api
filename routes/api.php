@@ -21,6 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('v1/products', 'Api\ProductController@index');
 Route::get('v1/products/random', 'Api\ProductController@inRandomOrder');
 Route::get('v1/products/search', 'Api\ProductController@search');
-Route::get('v1/products/{id}', 'Api\ProductController@show');
+
+Route::get('v1/products/{id}', 'Api\ProductController@show')->middleware('api.auth');
 
 Route::get('v1/tags', 'Api\TagController@index');
+
+Route::post('v1/contacts', 'Api\ContactController@sendMessage')->middleware('api.auth');

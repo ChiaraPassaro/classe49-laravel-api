@@ -24,16 +24,16 @@ import Axios from "axios";
       }
     },
     created() {
-      const url = 'http://127.0.0.1:8001/api/v1/products/' + this.id;
+      const url = 'http://127.0.0.1:8000/api/v1/products/' + this.id;
       this.getProduct(url);
     },
     methods: {
       getProduct(url){
-          Axios.get(url).then(
+          Axios.get(url,  {headers: {'Authorization': 'Bearer n686yd9qnm9b56h'}}).then(
             (result) => {
               console.log(result);
               this.product = result.data.results.data;
-            });
+            }).catch(error => console.log(error));
       }
     }
   }

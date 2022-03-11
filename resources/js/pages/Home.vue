@@ -6,7 +6,8 @@
             <h1>Home</h1>
           </div>
         </div>
-        <Main :cards="cards" @changePage="changePage($event)"></Main>
+        <Loading v-if="loading"/>
+        <Main :cards="cards" @changePage="changePage($event)" v-else></Main>
       </div>
   </div>
 </template>
@@ -14,15 +15,18 @@
 <script>
 import Axios from "axios";
 
+import Loading from "../components/Loading.vue";
 import Main from '../components/Main.vue';
 
   export default {
     name: 'Home',
     components: {
-      Main
+      Main,
+      Loading
     },
     data() {
       return {
+        loading: false,
         cards: {
           products: null,
           next_page_url: null,
@@ -31,7 +35,7 @@ import Main from '../components/Main.vue';
       }
     },
     created() {
-      this.getProducts('http://127.0.0.1:8001/api/v1/products/random');
+      this.getProducts('http://127.0.0.1:8000/api/v1/products/random');
     },
     methods: {
       changePage(vs) {
@@ -41,15 +45,20 @@ import Main from '../components/Main.vue';
         }
       },
       getProducts(url){
+        this.loading = true;
+        setTimeout(() => {
           Axios.get(url).then(
             (result) => {
               console.log(result);
               this.cards.products = result.data.results.data;
               this.cards.next_page_url = result.data.results.next_page_url;
               this.cards.prev_page_url = result.data.results.prev_page_url;
+              this.loading = false;
             });
+
+        }, 2000);
+          
       }
-      
     }
   }
 </script>

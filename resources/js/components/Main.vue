@@ -8,7 +8,9 @@
             <h5 class="card-title">{{ product.name }}</h5>
             <p class="card-text">{{ product.description }}</p>
           </div>
-          <router-link class="btn btn-info" :to="{ name: 'product', params: { id: product.id } }">View</router-link>
+          <router-link class="btn btn-info" 
+            :to="{ name: 'product', params: { id: product.id } }">
+            View</router-link>
         </div>
       </div>
     </div>

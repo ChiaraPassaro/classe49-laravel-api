@@ -81,7 +81,7 @@
             }
         },
         created() {
-            this.getProducts('http://127.0.0.1:8001/api/v1/products');
+            this.getProducts('http://127.0.0.1:8000/api/v1/products');
             this.getTags();
         },
         methods: {
@@ -102,7 +102,7 @@
             searchProducts() {
                 console.log('search', this.form);
 
-                const url = 'http://127.0.0.1:8001/api/v1/products/search';
+                const url = 'http://127.0.0.1:8000/api/v1/products/search';
                 Axios.get(url, {
                     params: this.form
                 }).then(
@@ -114,7 +114,7 @@
                     });
             },
             getTags() {
-                const url = 'http://127.0.0.1:8001/api/v1/tags';
+                const url = 'http://127.0.0.1:8000/api/v1/tags';
 
                 Axios.get(url).then(
                     (result) => {

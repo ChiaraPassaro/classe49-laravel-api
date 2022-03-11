@@ -43,6 +43,10 @@
                 {
                     label: 'Chi Siamo',
                     routeName: 'about'
+                },
+                {
+                    label: 'Contatti',
+                    routeName: 'contacts'
                 }
             ]
       }
